@@ -10,7 +10,7 @@ namespace Shoper.Application.UsesCases.CategoryServices
     public interface ICategoryServices
     {
         Task<List<ResultCategoryDto>> GetAllCategoryAsync();
-        Task<ResultCategoryDto> GetByIdCategoryAsync(int id);
+        Task<GetByIdCategoryDto> GetByIdCategoryAsync(int id);
         Task CreateCategoryAsync(CreateCategoryDto model);
         Task UpdateCategoryAsync(UpdateCategoryDto model);
         Task DeleteCategoryAsync(int id);

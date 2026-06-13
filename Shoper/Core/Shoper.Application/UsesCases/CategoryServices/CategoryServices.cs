@@ -18,29 +18,47 @@ namespace Shoper.Application.UsesCases.CategoryServices
             _repository = repository;
         }
 
-        public Task CreateCategoryAsync(CreateCategoryDto model)
+        public async Task CreateCategoryAsync(CreateCategoryDto model)
         {
-            throw new NotImplementedException();
+            await _repository.CreateAsync(new Category
+            {
+                CategoryName = model.CategoryName
+            });    
         }
 
-        public Task DeleteCategoryAsync(int id)
+        public async Task DeleteCategoryAsync(int id)
         {
-            throw new NotImplementedException();
+            var category = await _repository.GetByIdAsync(id);
+            await _repository.DeleteAsync(category);
         }
 
-        public Task<List<ResultCategoryDto>> GetAllCategoryAsync()
+        public async Task<List<ResultCategoryDto>> GetAllCategoryAsync()
         {
-            throw new NotImplementedException();
+            var categories = await _repository.GetAllAsync();
+            return categories.Select(x => new ResultCategoryDto 
+            { 
+                CategoryId = x.CategoryId, 
+                CategoryName = x.CategoryName 
+            }
+            ).ToList();
         }
 
-        public Task<ResultCategoryDto> GetByIdCategoryAsync(int id)
+        public async Task<GetByIdCategoryDto> GetByIdCategoryAsync(int id)
         {
-            throw new NotImplementedException();
+            var category = await _repository.GetByIdAsync(id);
+            var newCategory = new GetByIdCategoryDto
+            {
+                CategoryId = category.CategoryId,
+                CategoryName = category.CategoryName
+            };
+            return newCategory;
         }
 
-        public Task UpdateCategoryAsync(UpdateCategoryDto model)
+        public async Task UpdateCategoryAsync(UpdateCategoryDto model)
         {
-            throw new NotImplementedException();
+            var category = await _repository.GetByIdAsync(model.CategoryId);
+            category.CategoryName = model.CategoryName;
+            await _repository.UpdateAsync(category);
         }
     }
 }
